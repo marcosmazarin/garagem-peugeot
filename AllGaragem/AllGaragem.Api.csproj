@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Auth\Controllers\" />
+    <Folder Include="ProductCheckout\Middlewares\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AllGaragem.Applicaiton\AllGaragem.Application.csproj" />
+    <ProjectReference Include="..\AllGaragem.Domain\AllGaragem.Domain.csproj" />
+    <ProjectReference Include="..\AllGaragem.Infrastructure\AllGaragem.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
