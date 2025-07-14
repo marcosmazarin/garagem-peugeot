@@ -1,12 +1,12 @@
-﻿using AllGaragem.Domain.Entities.AllGaragem.Domain.Entities;
+﻿using AllGaragem.Domain.Entities;
 using AllGaragem.Domain.Interfaces;
 using Supabase;
 
 namespace AllGaragem.Infrastructure.Persistence
 {
-    public class PartRepository : BaseRepository<Product>, IPartRepository
+    public class ProductRepository : BaseRepository<Product>, IProductRepository
     {
-        public PartRepository(Client dbContext) : base(dbContext)
+        public ProductRepository(Client dbContext) : base(dbContext)
         {
             dbContext.Postgrest.Options.Schema = "ProductCheckout";
         }

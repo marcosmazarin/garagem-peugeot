@@ -8,12 +8,11 @@
 
   <ItemGroup>
     <Folder Include="Helpers\" />
-    <Folder Include="ProductCheckout\Interfaces\" />
-    <Folder Include="ProductCheckout\UseCases\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="12.0.0" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
   </ItemGroup>
 
   <ItemGroup>
