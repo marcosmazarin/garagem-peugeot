@@ -1,6 +1,6 @@
 ﻿using Supabase.Postgrest.Models;
 
-namespace AllGaragem.Domain.Interfaces
+namespace AllGaragem.Domain.Interfaces.Persistence
 {
     public interface IBaseRepository<T> where T : BaseModel
     {

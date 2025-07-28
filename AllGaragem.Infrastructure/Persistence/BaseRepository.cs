@@ -1,4 +1,4 @@
-﻿using AllGaragem.Domain.Interfaces;
+﻿using AllGaragem.Domain.Interfaces.Persistence;
 using AllGaragem.Domain.Utils;
 using Supabase;
 using Supabase.Postgrest.Models;

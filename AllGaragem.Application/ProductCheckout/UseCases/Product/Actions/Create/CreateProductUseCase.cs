@@ -1,14 +1,16 @@
 ﻿using AllGaragem.Application.ProductCheckout.DTO.Product.Actions.Create;
 using AllGaragem.Application.ProductCheckout.Interfaces.Product.Actions.Create;
-using AllGaragem.Domain.Interfaces;
+using AllGaragem.Domain.Interfaces.Persistence;
+using AllGaragem.Domain.Interfaces.Services;
 using ApiService.application.helpers;
 using Mapster;
 
 namespace AllGaragem.Application.ProductCheckout.UseCases.Product.Actions.Create
 {
-    public class CreateProductUseCase(IProductRepository productRepository) : ICreateProductUseCase
+    public class CreateProductUseCase(IProductRepository productRepository, IMZMSafeLink mzmSafelink) : ICreateProductUseCase
     {
         private readonly IProductRepository _productRepository = productRepository;
+        private readonly IMZMSafeLink _mzmSafelink = mzmSafelink;
 
         public async Task<UseCaseResult<CreateProductResponseDTO>> CreateProduct(CreateProductRequestDTO request)
         {
@@ -19,8 +21,10 @@ namespace AllGaragem.Application.ProductCheckout.UseCases.Product.Actions.Create
                 if (checkoutUrl == string.Empty)
                     return UseCaseResult<CreateProductResponseDTO>.Failure("Erro ao gerar URL de checkout");
 
-                var newProduct = request.Adapt<AllGaragem.Domain.Entities.Product>();
-                newProduct.CheckoutUrl = checkoutUrl;
+                string checkoutUrlSafeLink = await _mzmSafelink.GenerateSafeLink(checkoutUrl);
+
+                var newProduct = request.Adapt<Domain.Entities.Product>();
+                newProduct.CheckoutUrl = checkoutUrlSafeLink;
 
                 newProduct = await _productRepository.AddAsync(newProduct);
 
@@ -38,7 +42,13 @@ namespace AllGaragem.Application.ProductCheckout.UseCases.Product.Actions.Create
         {
             string url = $"https://checkout.infinitepay.io/{Environment.GetEnvironmentVariable("INFINITEPAY_USER")}?";
 
-            url += "items=[{\"name\":\"" + request.Description.Replace(" ", "+") + "\",\"price\":" + request.Price.ToString() + ",\"quantity\":1}]";
+            string price = (request.Price * 100).ToString("0");            
+
+            string items = $"\"name\":\"{request.Description.Replace(" ", "+")}\",\"price\":{price},\"quantity\":1";            
+
+            url = String.Format("https://checkout.infinitepay.io/{0}?items=[{{{1}}}]",
+                Environment.GetEnvironmentVariable("INFINITEPAY_USER"),
+                Uri.EscapeDataString(items));
 
             return Task.FromResult(url);
         }

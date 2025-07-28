@@ -1,5 +1,5 @@
 ﻿using AllGaragem.Domain.Entities;
-using AllGaragem.Domain.Interfaces;
+using AllGaragem.Domain.Interfaces.Persistence;
 using Supabase;
 
 namespace AllGaragem.Infrastructure.Persistence

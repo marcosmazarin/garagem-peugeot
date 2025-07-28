@@ -24,9 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AllGaragem.Applicaiton\AllGaragem.Application.csproj" />
-    <ProjectReference Include="..\AllGaragem.Domain\AllGaragem.Domain.csproj" />
-    <ProjectReference Include="..\AllGaragem.Infrastructure\AllGaragem.Infrastructure.csproj" />
+    <ProjectReference Include="..\AllGaragem.Application\AllGaragem.Application.csproj" />
+    <ProjectReference Include="..\AllGaragem.IoC\AllGaragem.IoC.csproj" />
   </ItemGroup>
 
 </Project>
