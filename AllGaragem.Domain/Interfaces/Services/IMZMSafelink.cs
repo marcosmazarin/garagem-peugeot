@@ -1,7 +1,9 @@
-﻿namespace AllGaragem.Domain.Interfaces.Services
+﻿using AllGaragem.Domain.Entities.Services.MZMSafeLink;
+
+namespace AllGaragem.Domain.Interfaces.Services
 {
     public interface IMZMSafeLink
     {
-        Task<string> GenerateSafeLink(string url);
+        Task<GenerateSafeLinkResponseDTO> GenerateSafeLink(string url);
     }
 }

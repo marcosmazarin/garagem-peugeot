@@ -1,22 +1,24 @@
-﻿using AllGaragem.Domain.Interfaces.Services;
+﻿using AllGaragem.Domain.Entities.Services.MZMSafeLink;
+using AllGaragem.Domain.Interfaces.Services;
 using System.Net.Http.Json;
 
 namespace AllGaragem.Infrastructure.Services
 {
     public class MZMSafelink : IMZMSafeLink
     {
-        public Task<string> GenerateSafeLink(string url)
+        public Task<GenerateSafeLinkResponseDTO> GenerateSafeLink(string url)
         {
-            HttpClient client = new HttpClient();
+            HttpClient client = new();
 
             HttpResponseMessage response = client.PostAsJsonAsync(
-                Environment.GetEnvironmentVariable("MZM_SAFELINK_URL"), 
-                url).Result;
+                Environment.GetEnvironmentVariable("MZM_SAFELINK_URL"), new { url }).Result;
 
-            if (!response.IsSuccessStatusCode)
-                return Task.FromResult(url);
-
-            return Task.FromResult(response.Content.ReadAsStringAsync().Result);
+            GenerateSafeLinkResponseDTO responseDTO = new()
+            {
+                ShortenUrl = response.IsSuccessStatusCode ? response.Content.ReadFromJsonAsync<GenerateSafeLinkResponseDTO>().Result!.ShortenUrl : url
+            };
+            
+            return Task.FromResult(responseDTO);
         }
     }
 }

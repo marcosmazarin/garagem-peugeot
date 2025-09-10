@@ -1,5 +1,6 @@
 ﻿using AllGaragem.Application.ProductCheckout.DTO.Product.Actions.Create;
 using AllGaragem.Application.ProductCheckout.Interfaces.Product.Actions.Create;
+using AllGaragem.Domain.Entities.Services.MZMSafeLink;
 using AllGaragem.Domain.Interfaces.Persistence;
 using AllGaragem.Domain.Interfaces.Services;
 using ApiService.application.helpers;
@@ -21,10 +22,10 @@ namespace AllGaragem.Application.ProductCheckout.UseCases.Product.Actions.Create
                 if (checkoutUrl == string.Empty)
                     return UseCaseResult<CreateProductResponseDTO>.Failure("Erro ao gerar URL de checkout");
 
-                string checkoutUrlSafeLink = await _mzmSafelink.GenerateSafeLink(checkoutUrl);
+                GenerateSafeLinkResponseDTO checkoutUrlSafeLink = await _mzmSafelink.GenerateSafeLink(checkoutUrl);
 
                 var newProduct = request.Adapt<Domain.Entities.Product>();
-                newProduct.CheckoutUrl = checkoutUrlSafeLink;
+                newProduct.CheckoutUrl = checkoutUrlSafeLink.ShortenUrl;
 
                 newProduct = await _productRepository.AddAsync(newProduct);
 

@@ -13,14 +13,14 @@ namespace AllGaragem.Api.ProductCheckout.Controllers
         private readonly ICreateProductUseCase _createProductUseCase = createProductUseCase;
 
         /// <summary>
-        /// Criação de um produto para checkout
+        /// Criacao de um produto para checkout
         /// </summary>        
         [HttpPost]
         public async Task<ApiResponse<CreateProductResponseDTO>> CreateProduct([FromBody] CreateProductRequestDTO request, [FromServices] IValidator<CreateProductRequestDTO> validator)
         {
             var validationResult = await validator.ValidateAsync(request);
             if (!validationResult.IsValid)
-                return new ApiResponse<CreateProductResponseDTO>(false, "Erro na validação dos dados", validationResult.Errors);
+                return new ApiResponse<CreateProductResponseDTO>(false, "Erro na validacao dos dados", validationResult.Errors);
 
             var response = await _createProductUseCase.CreateProduct(request);
 
